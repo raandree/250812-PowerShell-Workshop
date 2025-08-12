@@ -154,6 +154,155 @@ $userParams = @{
 New-User @userParams
 ```
 
+### 6. Parallel Processing with Split-Pipeline
+
+Split-Pipeline is a powerful module that enables parallel processing in PowerShell, significantly speeding up operations that can be parallelized:
+
+```powershell
+# Install Split-Pipeline module (run once)
+Install-Module SplitPipeline -Scope CurrentUser
+
+# Example 1: Parallel file processing
+# Sequential processing (slow for large datasets)
+$files = Get-ChildItem -Path "C:\LargeFolder" -Recurse -File
+$results = $files | ForEach-Object {
+    Get-FileHash $_.FullName -Algorithm SHA256
+}
+
+# Parallel processing (much faster)
+$files = Get-ChildItem -Path "C:\LargeFolder" -Recurse -File
+$results = $files | Split-Pipeline -Count 8 {
+    process { Get-FileHash $_.FullName -Algorithm SHA256 }
+}
+
+# Example 2: Parallel web requests
+$urls = @(
+    "https://httpbin.org/delay/2"
+    "https://httpbin.org/delay/3"
+    "https://httpbin.org/delay/1"
+    "https://httpbin.org/delay/4"
+)
+
+# Sequential: ~10 seconds total
+Measure-Command {
+    $sequential = $urls | ForEach-Object {
+        Invoke-RestMethod -Uri $_ -TimeoutSec 30
+    }
+}
+
+# Parallel: ~4 seconds total (fastest request time)
+Measure-Command {
+    $parallel = $urls | Split-Pipeline -Count 4 {
+        process { 
+            Invoke-RestMethod -Uri $_ -TimeoutSec 30
+        }
+    }
+}
+
+# Example 3: Parallel data processing with custom functions
+$servers = @("google.com", "microsoft.com", "github.com", "stackoverflow.com")
+
+# Test multiple servers in parallel
+$connectivityResults = $servers | Split-Pipeline -Count 4 {
+    process { 
+        $serverName = $_
+        
+        # Test basic connectivity
+        $pingResult = Test-Connection -ComputerName $serverName -Count 1 -Quiet -ErrorAction SilentlyContinue
+        
+        # Test specific ports
+        $port80Result = $false
+        $port443Result = $false
+        
+        try {
+            $port80Test = Test-NetConnection -ComputerName $serverName -Port 80 -WarningAction SilentlyContinue
+            $port80Result = $port80Test.TcpTestSucceeded
+        } catch {
+            $port80Result = $false
+        }
+        
+        try {
+            $port443Test = Test-NetConnection -ComputerName $serverName -Port 443 -WarningAction SilentlyContinue
+            $port443Result = $port443Test.TcpTestSucceeded
+        } catch {
+            $port443Result = $false
+        }
+        
+        # Return results
+        [PSCustomObject]@{
+            Server = $serverName
+            Ping = $pingResult
+            Port80 = $port80Result
+            Port443 = $port443Result
+            Timestamp = Get-Date
+        }
+    }
+} | Sort-Object Server
+
+# Alternative: Using functions with Split-Pipeline
+function Test-ServerConnectivity {
+    param([string]$ServerName)
+    
+    $pingResult = Test-Connection -ComputerName $ServerName -Count 1 -Quiet -ErrorAction SilentlyContinue
+    
+    $port80Result = try {
+        (Test-NetConnection -ComputerName $ServerName -Port 80 -WarningAction SilentlyContinue).TcpTestSucceeded
+    } catch { $false }
+    
+    $port443Result = try {
+        (Test-NetConnection -ComputerName $ServerName -Port 443 -WarningAction SilentlyContinue).TcpTestSucceeded
+    } catch { $false }
+    
+    return [PSCustomObject]@{
+        Server = $ServerName
+        Ping = $pingResult
+        Port80 = $port80Result
+        Port443 = $port443Result
+        Timestamp = Get-Date
+    }
+}
+
+# Pass function to Split-Pipeline using -Function parameter
+$connectivityResults2 = $servers | Split-Pipeline -Count 4 -Function Test-ServerConnectivity {
+    process { 
+        Test-ServerConnectivity -ServerName $_
+    }
+} | Sort-Object Server
+
+# Example 4: Parallel log analysis
+$logFiles = Get-ChildItem -Path "C:\Logs\*.log" -File
+
+$errorAnalysis = $logFiles | Split-Pipeline -Count 6 {
+    process {
+        $errors = Select-String -Path $_.FullName -Pattern "ERROR|FATAL" -AllMatches
+        [PSCustomObject]@{
+            LogFile = $_.Name
+            ErrorCount = $errors.Count
+            LastError = ($errors | Select-Object -Last 1).Line
+            FileSize = [math]::Round($_.Length / 1MB, 2)
+        }
+    }
+} | Sort-Object ErrorCount -Descending
+```
+
+**Key Benefits of Split-Pipeline:**
+
+- **Performance**: Dramatically reduces processing time for CPU-intensive or I/O-bound operations
+- **Scalability**: Automatically manages worker processes and load balancing
+- **Flexibility**: Works with any PowerShell pipeline operation
+- **Resource Control**: Specify the number of parallel processes with `-Count` parameter
+
+**Best Practices:**
+
+1. **Choose optimal thread count**: Usually CPU cores × 2 for I/O operations, CPU cores for CPU-intensive tasks
+2. **Consider overhead**: Parallel processing has setup costs - only beneficial for operations taking >100ms per item
+3. **Handle shared resources carefully**: Avoid writing to the same files or shared variables
+4. **Test performance**: Always measure to ensure parallel processing provides actual benefits
+
+**Resources:**
+
+- [Split-Pipeline on PowerShell Gallery](https://www.powershellgallery.com/packages/SplitPipeline)
+
 ## 🔗 Additional Resources
 
 ### PowerShell Community Tools
