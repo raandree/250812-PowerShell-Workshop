@@ -1,19 +1,37 @@
-# PowerShell Workshop - August 12, 2025
+# 1. PowerShell Workshop - August 12, 2025
+
+- [1. PowerShell Workshop - August 12, 2025](#1-powershell-workshop---august-12-2025)
+  - [1.1. 📋 Workshop Contents](#11--workshop-contents)
+    - [1.1.1. Scripts in This Repository](#111-scripts-in-this-repository)
+  - [1.2. 🔧 Key PowerShell Concepts Covered](#12--key-powershell-concepts-covered)
+    - [1.2.1. Add-Type for Custom Types](#121-add-type-for-custom-types)
+    - [1.2.2. Null Comparison Best Practices](#122-null-comparison-best-practices)
+    - [1.2.3. Advanced Group-Object Usage](#123-advanced-group-object-usage)
+    - [1.2.4. Regular Expressions](#124-regular-expressions)
+    - [1.2.5. Splatting Parameters](#125-splatting-parameters)
+    - [1.2.6. Copilot](#126-copilot)
+    - [1.2.7. Parallel Processing with Split-Pipeline](#127-parallel-processing-with-split-pipeline)
+  - [1.3. 🔗 Additional Resources](#13--additional-resources)
+    - [1.3.1. PowerShell Community Tools](#131-powershell-community-tools)
+    - [1.3.2. Learning Resources](#132-learning-resources)
+  - [1.4. 🚀 Getting Started](#14--getting-started)
+  - [1.5. 📝 Workshop Exercises](#15--workshop-exercises)
+  - [1.6. 🤝 Contributing](#16--contributing)
 
 Welcome to the PowerShell Workshop! This repository contains practical examples and exercises to help you master PowerShell scripting fundamentals.
 
-## 📋 Workshop Contents
+## 1.1. 📋 Workshop Contents
 
-### Scripts in This Repository
+### 1.1.1. Scripts in This Repository
 
 | Script | Description |
 |--------|-------------|
 | `foreach.ps1` | Demonstrates different foreach loop patterns and nested iterations |
 | `ErrorHandling.ps1` | Shows error handling techniques using try-catch blocks and error actions |
 
-## 🔧 Key PowerShell Concepts Covered
+## 1.2. 🔧 Key PowerShell Concepts Covered
 
-### 1. Add-Type for Custom Types
+### 1.2.1. Add-Type for Custom Types
 
 Learn how to add custom .NET types to PowerShell for advanced functionality, particularly useful for SSL certificate handling:
 
@@ -45,7 +63,7 @@ if ($PSVersionTable.PSVersion.Major -ge 6) {
 
 - [SSL Certificate Handling Gist](https://gist.github.com/jmassardo/2e0dd7cce292f16ff8f6945b8b3752b5)
 
-### 2. Null Comparison Best Practices
+### 1.2.2. Null Comparison Best Practices
 
 Always compare with `$null` on the left side to avoid unexpected behavior:
 
@@ -66,7 +84,7 @@ if ($f -eq $null) {
 }
 ```
 
-### 3. Advanced Group-Object Usage
+### 1.2.3. Advanced Group-Object Usage
 
 The `-Property` parameter accepts script blocks for dynamic grouping:
 
@@ -80,7 +98,7 @@ Get-ChildItem -Recurse -File |
 1..20 | Sort-Object -Descending -Property { Get-Random }
 ```
 
-### 4. Regular Expressions
+### 1.2.4. Regular Expressions
 
 > *"Some people, when confronted with a problem, think 'I know, I'll use regular expressions.' Now they have two problems."* - Jamie Zawinski
 
@@ -116,7 +134,7 @@ $htmlPattern = @"
 
 - [Jeff Atwood's Regex Article](https://blog.codinghorror.com/regular-expressions-now-you-have-two-problems/)
 
-### 5. Splatting Parameters
+### 1.2.5. Splatting Parameters
 
 Splatting makes function calls cleaner and more maintainable:
 
@@ -154,7 +172,19 @@ $userParams = @{
 New-User @userParams
 ```
 
-### 6. Parallel Processing with Split-Pipeline
+### 1.2.6. Copilot
+
+https://code.visualstudio.com/docs/copilot/chat/chat-agent-mode
+
+Chat › Tools: Auto Approve
+
+Chat › Agent: Max Requests (500)
+
+[Software Engineer v1.chatmode](./Software%20Engineer%20v1.chatmode.md) Extended coding agent more with memory bank
+
+Concepte of memory bank in AI
+
+### 1.2.7. Parallel Processing with Split-Pipeline
 
 Split-Pipeline is a powerful module that enables parallel processing in PowerShell, significantly speeding up operations that can be parallelized:
 
@@ -303,20 +333,20 @@ $errorAnalysis = $logFiles | Split-Pipeline -Count 6 {
 
 - [Split-Pipeline on PowerShell Gallery](https://www.powershellgallery.com/packages/SplitPipeline)
 
-## 🔗 Additional Resources
+## 1.3. 🔗 Additional Resources
 
-### PowerShell Community Tools
+### 1.3.1. PowerShell Community Tools
 
 - **Join-Object**: [Custom function for joining PowerShell objects](https://github.com/RamblingCookieMonster/PowerShell/blob/master/Join-Object.ps1)
 - **Split-Pipeline**: Advanced pipeline processing for parallel execution
 
-### Learning Resources
+### 1.3.2. Learning Resources
 
 - [PowerShell Documentation](https://docs.microsoft.com/en-us/powershell/)
 - [PowerShell Gallery](https://www.powershellgallery.com/)
 - [AI Future Predictions](https://ai-2027.com/) - Understanding the evolving tech landscape
 
-## 🚀 Getting Started
+## 1.4. 🚀 Getting Started
 
 1. Clone this repository
 2. Open PowerShell 5.1 or PowerShell 7+
@@ -328,9 +358,11 @@ $errorAnalysis = $logFiles | Split-Pipeline -Count 6 {
    .\ErrorHandling.ps1
    ```
 
-## 📝 Workshop Exercises
+## 1.5. 📝 Workshop Exercises
 
 Try these exercises to practice the concepts:
+
+#TODO: further material on functions and modules https://github.com/raandree/PowerShellTraining/
 
 1. **Foreach Loops**: Modify `foreach.ps1` to process different data types
 2. **Error Handling**: Extend `ErrorHandling.ps1` with custom error types
@@ -338,7 +370,7 @@ Try these exercises to practice the concepts:
 4. **Regex**: Build a text processing script using regular expressions
 5. **Custom Types**: Implement a custom .NET type for specific functionality
 
-## 🤝 Contributing
+## 1.6. 🤝 Contributing
 
 Feel free to submit improvements, additional examples, or corrections via pull requests.
 
