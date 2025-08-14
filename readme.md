@@ -10,6 +10,12 @@
     - [1.2.4. Regular Expressions](#124-regular-expressions)
     - [1.2.5. Splatting Parameters](#125-splatting-parameters)
     - [1.2.6. Copilot](#126-copilot)
+    - [Pester](#pester)
+    - [DSC](#dsc)
+- [TODO: in DSC](#todo-in-dsc)
+    - [Debugging PowerShell Processes](#debugging-powershell-processes)
+    - [Configuration and Logging with PSFramework](#configuration-and-logging-with-psframework)
+    - [Parallel processing with ForEach-Object and ThreadJobs](#parallel-processing-with-foreach-object-and-threadjobs)
     - [1.2.7. Parallel Processing with Split-Pipeline](#127-parallel-processing-with-split-pipeline)
   - [1.3. 🔗 Additional Resources](#13--additional-resources)
     - [1.3.1. PowerShell Community Tools](#131-powershell-community-tools)
@@ -183,6 +189,60 @@ Chat › Agent: Max Requests (500)
 [Software Engineer v1.chatmode](./Software%20Engineer%20v1.chatmode.md) Extended coding agent more with memory bank
 
 Concepte of memory bank in AI
+
+### Pester
+
+Sample for infrastructure testing [TestLocalMachine.tests.ps1](./Pester%20Infrastructure%20Testing//TestLocalMachine.tests.ps1).
+
+Output NUnit can be integrated into all CI tools to get a visualization.
+
+Use Copilot for writing tests.
+
+### DSC
+
+Samples:
+# TODO: in [DSC](./DSC/DSC%201.ps1)
+
+https://github.com/microsoft/PowerStig
+
+### Debugging PowerShell Processes
+
+https://gist.github.com/raandree/5e675d28ccc72cb55ab3808007bda5f4
+
+[Scheduled Jobs and Debugging.ps1](./Debugging%20a%20Schedules%20Job//Scheduled%20Jobs%20and%20Debugging.ps1)
+
+### Configuration and Logging with PSFramework
+
+```powershell
+Get-LabConfigurationItem
+
+Get-LabConfigurationItem -Name MaxPSSessionsPerVM
+
+Get-PSFConfig -Module AutomatedLab
+
+Register-PSFConfig -Module AutomatedLab -Name aaTest1 -Scope 
+
+Set-PSFConfig -Module AutomatedLab -Name aaTest1 -Value 123 -Description None
+
+```
+
+### Parallel processing with ForEach-Object and ThreadJobs
+
+`ForEach-Object -Parallel` only available in PowerShell 7.
+
+1..100 | ForEach-Object { Start-Sleep -Milliseconds 100 }
+
+1..100 | ForEach-Object -Parallel { Start-Sleep -Milliseconds 100 } -ThrottleLimit 24
+
+Alternative [ThreadJob](https://github.com/PowerShell/ThreadJob).
+
+$sb = { Start-Sleep -Milliseconds 2000 }
+
+$j = 1..100 | ForEach-Object { Start-ThreadJob -ScriptBlock $sb -ThrottleLimit 24 }
+
+in depth talk: https://www.youtube.com/watch?v=U1eihsrazAA
+
+
 
 ### 1.2.7. Parallel Processing with Split-Pipeline
 
@@ -377,3 +437,10 @@ Feel free to submit improvements, additional examples, or corrections via pull r
 ---
 
 Happy PowerShell scripting! 🎯
+
+
+vorträge david kriegel
+
+phoenix project
+
+teams termin für DSC

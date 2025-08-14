@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<test-results xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="nunit_schema_2.5.xsd" name="Pester" total="3" errors="0" failures="0" not-run="0" inconclusive="0" ignored="0" skipped="0" invalid="0" date="2025-08-13" time="14:07:26">
+  <environment clr-version="9.0.6" nunit-version="2.5.8.0" cwd="D:\Git\250812-PowerShell-Workshop" user-domain="RAANDREE1" machine-name="RAANDREE1" platform="Microsoft Windows 11 Pro for Workstations|C:\WINDOWS|\Device\Harddisk1\Partition3" os-version="10.0.26100" user="randr" />
+  <culture-info current-culture="de-DE" current-uiculture="en-US" />
+  <test-suite type="TestFixture" name="Pester" executed="True" result="Success" success="True" time="0.1303" asserts="0" description="Pester">
+    <results>
+      <test-suite type="TestFixture" name="D:\Git\250812-PowerShell-Workshop\Pester Infrastructure Testing\TestLocalMachine.tests.ps1" executed="True" result="Success" success="True" time="0.1303" asserts="0" description="D:\Git\250812-PowerShell-Workshop\Pester Infrastructure Testing\TestLocalMachine.tests.ps1">
+        <results>
+          <test-suite type="TestFixture" name="Testing local machine settings" executed="True" result="Success" success="True" time="0.0493" asserts="0" description="Testing local machine settings">
+            <results>
+              <test-suite type="TestFixture" name="Testing local machine settings.Time Settings" executed="True" result="Success" success="True" time="0.0422" asserts="0" description="Testing local machine settings.Time Settings">
+                <results>
+                  <test-case description="Should have the correct time zone" name="Testing local machine settings.Time Settings.Should have the correct time zone" time="0.0024" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="Is the Windows Time Service enabled?" name="Testing local machine settings.Time Settings.Is the Windows Time Service enabled?" time="0.0053" asserts="0" success="True" result="Success" executed="True" />
+                  <test-case description="NTP Server is configured correctly" name="Testing local machine settings.Time Settings.NTP Server is configured correctly" time="0.0253" asserts="0" success="True" result="Success" executed="True" />
+                </results>
+              </test-suite>
+            </results>
+          </test-suite>
+        </results>
+      </test-suite>
+    </results>
+  </test-suite>
+</test-results>
