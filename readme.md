@@ -388,6 +388,33 @@ Invoke-Pester -Path ".\Tests\" -OutputFile "TestResults.xml" -OutputFormat NUnit
 Invoke-Pester -Path ".\Tests\" -CodeCoverage ".\Source\*.ps1" -OutputFile "TestResults.xml" -OutputFormat NUnitXml
 ```
 
+**Test Visualization with PesterOutput.xml**
+
+The workshop includes a sample [`PesterOutput.xml`](./PesterOutput.xml) file that demonstrates the structured XML format Pester generates. This XML output is crucial for CI/CD integration because:
+
+1. **Universal Compatibility**: The NUnit XML format is supported by virtually all CI/CD platforms (Azure DevOps, GitHub Actions, Jenkins, GitLab CI, etc.)
+
+2. **Rich Test Reporting**: CI/CD tools can parse the XML to provide:
+   - Visual test result dashboards
+   - Pass/fail trends over time
+   - Detailed failure analysis with stack traces
+   - Test duration metrics and performance tracking
+
+3. **Automated Quality Gates**: XML results enable automated decisions:
+   - Block deployments when tests fail
+   - Set coverage thresholds that must be met
+   - Generate alerts for test regressions
+
+4. **Team Visibility**: Transform PowerShell test results into accessible reports that non-technical stakeholders can understand
+
+Example of how Azure DevOps displays Pester XML results:
+- Test summary with pass/fail counts
+- Individual test case details with execution times
+- Failure reasons and error messages
+- Historical trend analysis across builds
+
+This makes PowerShell testing a first-class citizen in enterprise DevOps workflows, providing the same level of visibility and automation as other programming languages.
+
 **Best Practices:**
 
 1. **Structure**: Use `Describe`, `Context`, and `It` blocks for clear test organization
